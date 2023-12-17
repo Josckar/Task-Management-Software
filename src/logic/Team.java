@@ -1,8 +1,11 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Team {
+public class Team implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	static int teamCount;
 	String id;
 	ArrayList<Employee> members;
@@ -10,14 +13,16 @@ public class Team {
 	String name, description;
 	ArrayList<Task> tasks;
 	int maxSize;
+	public ArrayList<String> groups;
 	
-	Team() {
+	public Team() {
         throw new IllegalStateException("Team must be initialized");
 	}
 	
-	Team(String name) {
+	public Team(String name) {
 		this.name = name;
 		this.id = "TM" + String.valueOf(teamCount++);
+		this.groups = new ArrayList<String>();
 	}
 	
 	Team(String name, Employee teamLeader, ArrayList<Employee> members) {
@@ -34,6 +39,10 @@ public class Team {
 		this.id = "TM" + String.valueOf(teamCount++);
 	}
 	
+	public void addGroup(Group group) {
+		groups.add(group.getID());
+	}
+	
 	void setMembers(ArrayList<Employee> members) {
 		if (this.maxSize < members.size()) {
 			throw new IllegalStateException("Amount of members exceeds max size");
@@ -41,7 +50,7 @@ public class Team {
 		this.members = members;
 	}
 	
-	boolean addMember(Employee employee) {
+	public boolean addMember(Employee employee) {
 		if (this.maxSize == members.size()) {
 			throw new IllegalStateException("Maximum team size reached");
 		}
@@ -89,7 +98,7 @@ public class Team {
 		return this.maxSize;
 	}
 	
-	String getID() {
+	public String getID() {
 		return this.id;
 	}
 	

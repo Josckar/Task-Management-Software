@@ -1,21 +1,24 @@
 package logic;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Group {
-    static int groupCount;
+public class Group implements Serializable {
+ 
+	private static final long serialVersionUID = 1L;
+	static int groupCount;
     String id;
     String name, description;
     ArrayList<Team> teams;
     ArrayList<Employee> employees;
 
-    Group() {
+    public Group() {
         this.teams = new ArrayList<>();
         this.employees = new ArrayList<>();
         this.id = "GR" + String.valueOf(groupCount++);
         System.out.println("New group created with id: " + id);
     }
 
-    Group(String name, ArrayList<Team> teams, ArrayList<Employee> employees) {
+    public Group(String name, ArrayList<Team> teams, ArrayList<Employee> employees) {
         this.name = name;
         this.teams = teams;
         this.employees = employees;
@@ -86,7 +89,6 @@ public class Group {
         return false; // Employee is not a member
     }
 
-    // Method to check if a team is a member based on team ID
     public boolean checkMember(Team team) {
         String teamId = team.getID();
         for (Team member : teams) {

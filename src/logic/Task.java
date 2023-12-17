@@ -1,9 +1,15 @@
 package logic;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Task {
-    private PriorityLevel priority;
+
+public class Task implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private PriorityLevel priority;
     private String description;
     private int expectedCompletionTime; // in hours
     private Date dateUploaded;
@@ -40,7 +46,7 @@ public class Task {
         this.isOpen = isOpen;
     }
     
-    public String getId() {
+    public String getID() {
     	return this.id;
     }
     
@@ -62,6 +68,10 @@ public class Task {
 
     public List<String> getGroups() {
         return groups;
+    }
+    
+    public void addGroup(Group g) {
+    	this.groups.add(g.getID());
     }
 
     // Setters
@@ -92,13 +102,23 @@ public class Task {
     @Override
     public String toString() {
         return String.format("Task ID: %s%nPriority: %s%nDescription: %s%nExpected Completion Time: %d hours%nDate Uploaded: %s%nGroups: %s%nIs Open: %b%nIs Complete: %b",
-                             getId(), getPriority(), getDescription(), getExpectedCompletionTime(),
+                             getID(), getPriority(), getDescription(), getExpectedCompletionTime(),
                              getDateUploaded(), getGroups(), isOpen, isComplete);
     }
+    
+    public boolean isOpen() {
+    	return this.isOpen;
+    }
+
+	public void setOpen(boolean b) {
+		this.isOpen = b;
+		
+	}
 }
 
 class Subtask extends Task {
-    private double percentage; // Percentage of the overall task
+	private static final long serialVersionUID = 1L;
+	private double percentage; // Percentage of the overall task
     private List<String> teamMembers; // Team members assigned to the subtask
 
     // Constructor
@@ -126,6 +146,7 @@ class Subtask extends Task {
     public void setTeamMembers(List<String> teamMembers) {
         this.teamMembers = teamMembers;
     }
+    
 
     public String toString() {
         return String.format("%s%nPercentage: %.2f%%%nTeam Members: %s",
@@ -133,9 +154,3 @@ class Subtask extends Task {
     }
 }
 
-// Enum for priority levels
-enum PriorityLevel {
-    LOW,
-    MEDIUM,
-    HIGH
-}

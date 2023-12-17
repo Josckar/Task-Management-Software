@@ -1,5 +1,15 @@
 # Task Scheduling System
 
+UPDATE: The project does not (yet) meet the initial descripition.
+
+## To be added:
+* Ability to create new Managers	
+	* Currently, there is one included manager: Username: Bob, Password: Bob. Managers can create new Team Members, but not yet new Managers.
+* Task Creation
+* Task progress and subtask creation
+* Group and Team creation
+* Task assignment (task acceptance is possible)
+
 ## Overview
 
 The project aims to develop a GUI-based Task Scheduling System in Java that allows employees and management to efficiently manage their tasks based on priority, thereby enhancing productivity and organization. There will be two types of employees: Managers and Team Members.

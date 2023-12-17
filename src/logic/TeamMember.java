@@ -1,8 +1,12 @@
 package logic;
 
-public class TeamMember extends Employee {
+import java.io.Serializable;
 
-	   public TeamMember(String username, String password) throws BlankFieldException {
+public class TeamMember extends Employee implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	public TeamMember(String username, String password) throws BlankFieldException {
 		   super(username, password);
 	    }
 	    

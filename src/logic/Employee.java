@@ -1,13 +1,20 @@
 package logic;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Employee {
+public abstract class Employee implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	String employeeID, name;
 	static int employeeCount = 0;
 	String username, password;
 	String employeeType;
 	ArrayList<Task> tasks;
+	public ArrayList<String> groups, teams; //stores ids of groups employee is a member of
 	
     Employee() {
         throw new IllegalStateException("Employee must be initialized");
@@ -22,6 +29,8 @@ public abstract class Employee {
     	this.password = password;
     	this.employeeID = String.valueOf(employeeCount++);
     	this.tasks = new ArrayList<Task>();
+    	this.groups = new ArrayList<String>();
+    	this.teams = new ArrayList<String>();
     }
     
     Employee(String username, String password, String name) throws BlankFieldException {
@@ -34,6 +43,8 @@ public abstract class Employee {
     	this.name = name;
     	this.employeeID = String.valueOf(employeeCount++);
     	this.tasks = new ArrayList<Task>();
+    	this.groups = new ArrayList<String>();
+    	this.teams = new ArrayList<String>();
     }
     
     /**
@@ -44,7 +55,7 @@ public abstract class Employee {
     public boolean addTask(Task newTask) {
    
     	for(Task task : this.tasks) {
-    		if(task.getId().equals( newTask.getId() ) ) {
+    		if(task.getID().equals( newTask.getID() ) ) {
     			return false;
     		}
     	}
@@ -57,6 +68,21 @@ public abstract class Employee {
     	checkBlanks(newUsername, "New Username cannot be blank");
     	
     	this.username = newUsername;
+    }
+    
+    public void addGroup(Group group) {
+    	this.groups.add(group.getID());
+    }
+    public void addTeam(Team team) {
+    	this.teams.add(team.getID());
+    }
+    
+    public ArrayList<String> getGroups() {
+    	return this.groups;
+    }
+    
+    public ArrayList<String> getTeams() {
+    	return this.teams;
     }
     
     public void changePassword(String attemptPassword, String newPassword) throws MismatchException, BlankFieldException {
@@ -94,10 +120,19 @@ public abstract class Employee {
     public String toString(){
         return String.format("%s Name: %s, Username: %s with %d tasks", this.employeeID, this.name, this.username, this.tasks.size());
     }
-
+    
+    
     
     public boolean login(String username, String password) {
         return this.username.equals(username) && this.password.equals(password);
+    }
+
+    public void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+    }
+
+    public void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
     }
 	
     public class MismatchException extends Exception {
